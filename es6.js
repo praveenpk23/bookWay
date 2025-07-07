@@ -16,28 +16,25 @@ clearAllBtn.addEventListener("click", function (e) {
 function getFormData(e) {
     // const ui = new Ui();
   e.preventDefault();
-  const title = document.querySelector("#title").value;
-  const author = document.querySelector("#author").value;
-  const isbn = document.querySelector("#isbn").value;
+  const title = document.querySelector("#title").value.replace(/\s+/g, ' ').trim();
+  const author = document.querySelector("#author").value.replace(/\s+/g, ' ').trim();
+  const isbn = document.querySelector("#isbn").value.replace(/\s+/g, ' ').trim();
+  // console.log(title,author,isbn);
 
-  if (title === "" || author === "" || isbn === "") {
+  if (title === "" || isbn === "" || author === "") {
     Ui.showMessage("Please fill all the fields", "danger");
     return;
   }
   const book = new AddBook(title, author, isbn);
   console.log(book);
-const btnType = e.target.children[3].children[0].textContent
+const btnType = e.target.children[3].children[0].textContent.trim();
 
   //   book.storeBooksOnLocalStorage(book);
   // AddBook.storeBooksOnLocalStorage(book);
         AddBook.storeBooksOnLocalStorage(book,btnType);
+        console.log(btnType)
 
 
-  // if(btnType === 'Add'){
-  //     AddBook.storeBooksOnLocalStorage(book);
-  // }else if(btnType === 'Edit'){
-  //     EditBook.updateBooks(book)
-  // }
 }
 
 
@@ -54,13 +51,7 @@ class AddBook {
    const isbn =   localStorage.getItem('bookUpdateIsbn')
    console.log(isbn)
     const booksForEdit = JSON.parse(localStorage.getItem("books"));
-    booksForEdit.forEach(function(book,index){
-          if(book.isbn === isbn){
-            booksForEdit.splice(index,1)
-          }
-
-    })
-    console.log(booksForEdit)
+  
   
 
 
@@ -72,16 +63,18 @@ class AddBook {
     Ui.useEffectShow();
     Ui.showMessage("This book added successfully in the library", "success");
     ResetPage.reset();
-  } else {
+  } else { 
+       console.log("Entered Add sections")
+
    if(type === 'Add'){
      const isExsistsIsbn = books.some((bookItem) => bookItem.isbn === book.isbn );
      const isExsistsTitle = books.some((bookItem) => bookItem.title === book.title );
-     const isExsistsAuthor = books.some((bookItem) => bookItem.author === book.author );
+    //  const isExsistsAuthor = books.some((bookItem) => bookItem.author === book.author );
     console.log(`isbn = ${isExsistsIsbn}`);
     console.log(`title = ${isExsistsTitle}`);
-    console.log(`author = ${isExsistsAuthor}`);
+    // console.log(`author = ${isExsistsAuthor}`);
 
-    if (isExsistsIsbn || isExsistsAuthor || isExsistsTitle) {
+    if (isExsistsIsbn  || isExsistsTitle) {
       Ui.showMessage("This book already exists in the library", "danger");
 
     } else {
@@ -93,15 +86,21 @@ class AddBook {
     }
    }else if(type === 'Edit'){
     console.log('into edit')
+  booksForEdit.forEach(function(book,index){
+          if(book.isbn === isbn){
+            booksForEdit.splice(index,1)
+          }
 
+    })
+    console.log(booksForEdit)
      const isExsistsIsbn = booksForEdit.some((bookItem) => bookItem.isbn === book.isbn );
      const isExsistsTitle = booksForEdit.some((bookItem) => bookItem.title === book.title );
-     const isExsistsAuthor = booksForEdit.some((bookItem) => bookItem.author === book.author );
+    //  const isExsistsAuthor = booksForEdit.some((bookItem) => bookItem.author === book.author );
     console.log(`isbn = ${isExsistsIsbn}`);
     console.log(`title = ${isExsistsTitle}`);
-    console.log(`author = ${isExsistsAuthor}`);
+    // console.log(`author = ${isExsistsAuthor}`);
 
-    if (isExsistsIsbn || isExsistsAuthor || isExsistsTitle) {
+    if (isExsistsIsbn ||  isExsistsTitle) {
       Ui.showMessage("This book already exists in the library", "danger");
 
     }else{
