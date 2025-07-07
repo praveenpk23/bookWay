@@ -53,6 +53,15 @@ class AddBook {
   console.log(books);
    const isbn =   localStorage.getItem('bookUpdateIsbn')
    console.log(isbn)
+    const booksForEdit = JSON.parse(localStorage.getItem("books"));
+    booksForEdit.forEach(function(book,index){
+          if(book.isbn === isbn){
+            booksForEdit.splice(index,1)
+          }
+
+    })
+    console.log(booksForEdit)
+  
 
 
 
@@ -65,10 +74,14 @@ class AddBook {
     ResetPage.reset();
   } else {
    if(type === 'Add'){
-     const isExsists = books.some((bookItem) => bookItem.isbn === book.isbn);
-    console.log(isExsists);
+     const isExsistsIsbn = books.some((bookItem) => bookItem.isbn === book.isbn );
+     const isExsistsTitle = books.some((bookItem) => bookItem.title === book.title );
+     const isExsistsAuthor = books.some((bookItem) => bookItem.author === book.author );
+    console.log(`isbn = ${isExsistsIsbn}`);
+    console.log(`title = ${isExsistsTitle}`);
+    console.log(`author = ${isExsistsAuthor}`);
 
-    if (isExsists) {
+    if (isExsistsIsbn || isExsistsAuthor || isExsistsTitle) {
       Ui.showMessage("This book already exists in the library", "danger");
 
     } else {
@@ -81,28 +94,52 @@ class AddBook {
    }else if(type === 'Edit'){
     console.log('into edit')
 
-    const edit = new EditBook()
+     const isExsistsIsbn = booksForEdit.some((bookItem) => bookItem.isbn === book.isbn );
+     const isExsistsTitle = booksForEdit.some((bookItem) => bookItem.title === book.title );
+     const isExsistsAuthor = booksForEdit.some((bookItem) => bookItem.author === book.author );
+    console.log(`isbn = ${isExsistsIsbn}`);
+    console.log(`title = ${isExsistsTitle}`);
+    console.log(`author = ${isExsistsAuthor}`);
 
-    const indexElement = edit.getIndexFromLocalStorage(isbn);
-    console.log('into else part')
-    books.forEach(function(element,index){
-      if(index === indexElement ){
-        books.splice(index,1)
-        console.log(books)
-        console.log(book)
-        console.log(index)
-        books.push(book);
-        // JSON.stringify(localStorage.setItem('books',books))
-        localStorage.setItem('books',JSON.stringify(books))
+    if (isExsistsIsbn || isExsistsAuthor || isExsistsTitle) {
+      Ui.showMessage("This book already exists in the library", "danger");
+
+    }else{
+
+      booksForEdit.push(book)
+      localStorage.setItem('books',JSON.stringify(booksForEdit))
         Ui.showMessage("This book updated successfully",'warning')
               ResetPage.reset();
                   document.querySelector('#cancel').remove();
 
         Ui.useEffectShow();
         localStorage.removeItem('bookUpdateIsbn')
-      }
-    })
+
+    //     const edit = new EditBook()
+
+    // const indexElement = edit.getIndexFromLocalStorage(isbn);
+    // console.log('into else part')
+    // books.forEach(function(element,index){
+    //   if(index === indexElement ){
+    //     books.splice(index,1)
+    //     console.log(books)
+    //     console.log(book)
+    //     console.log(index)
+    //     books.push(book);
+    //     // JSON.stringify(localStorage.setItem('books',books))
+    //     localStorage.setItem('books',JSON.stringify(books))
+    //     Ui.showMessage("This book updated successfully",'warning')
+    //           ResetPage.reset();
+    //               document.querySelector('#cancel').remove();
+
+    //     Ui.useEffectShow();
+    //     localStorage.removeItem('bookUpdateIsbn')
+    //   }
+    // })
    }
+    }
+
+  
   }
 
 
@@ -305,13 +342,6 @@ class EditBook{
 
 
     
-   static updateBooks(index){
-
-    
-    
-
-   }
-  
 }
 
 
