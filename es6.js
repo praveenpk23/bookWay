@@ -67,8 +67,8 @@ class AddBook {
        console.log("Entered Add sections")
 
    if(type === 'Add'){
-     const isExsistsIsbn = books.some((bookItem) => bookItem.isbn === book.isbn );
-     const isExsistsTitle = books.some((bookItem) => bookItem.title === book.title );
+     const isExsistsIsbn = books.some((bookItem) => bookItem.isbn.toLowerCase() === book.isbn.toLowerCase() );
+     const isExsistsTitle = books.some((bookItem) => bookItem.title.toLowerCase() === book.title.toLowerCase() );
     //  const isExsistsAuthor = books.some((bookItem) => bookItem.author === book.author );
     console.log(`isbn = ${isExsistsIsbn}`);
     console.log(`title = ${isExsistsTitle}`);
@@ -93,8 +93,8 @@ class AddBook {
 
     })
     console.log(booksForEdit)
-     const isExsistsIsbn = booksForEdit.some((bookItem) => bookItem.isbn === book.isbn );
-     const isExsistsTitle = booksForEdit.some((bookItem) => bookItem.title === book.title );
+     const isExsistsIsbn = booksForEdit.some((bookItem) => bookItem.isbn.toLowerCase() === book.isbn.toLowerCase() );
+     const isExsistsTitle = booksForEdit.some((bookItem) => bookItem.title.toLowerCase() === book.title.toLowerCase() );
     //  const isExsistsAuthor = booksForEdit.some((bookItem) => bookItem.author === book.author );
     console.log(`isbn = ${isExsistsIsbn}`);
     console.log(`title = ${isExsistsTitle}`);
